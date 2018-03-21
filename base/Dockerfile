@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM debian:jessie
 
 # File Author / Maintainer
 MAINTAINER Toni Hermoso Pulido <toni.hermoso@crg.eu>
