@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch
 
 # File Author / Maintainer
 MAINTAINER Toni Hermoso Pulido <toni.hermoso@crg.eu>
