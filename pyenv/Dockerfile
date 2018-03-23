@@ -1,4 +1,4 @@
-FROM biocorecrg/debian-perlbrew
+FROM biocorecrg/debian-perlbrew:jessie
 
 # File Author / Maintainer
 MAINTAINER Toni Hermoso Pulido <toni.hermoso@crg.eu>
