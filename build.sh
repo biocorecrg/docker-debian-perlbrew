@@ -4,7 +4,8 @@ set -ueo pipefail
 
 SOURCE=https://github.com/CRG-CNAG/docker-debian-perlbrew
 VARIANTS=(base pyenv pyenv3 java)
-BRANCHES=(jessie latest)
+BRANCHES=(jessie stretch)
+LATEST=stretch
 BASETAG=biocorecrg/debian-perlbrew
 
 TEMPDIR=$HOME/tmp
@@ -16,13 +17,21 @@ mkdir -p $WORKDIR
 function dockerBuildPush () {
 
 	cd $1
-	TAG=""
-        if [ "${1}" != "base" ]; then
-        	TAG=":$1"
+	GROUP=""
+    if [ "${1}" != "base" ]; then
+        	GROUP="-$1"
 	fi
+
+    TAG=":$3"
  
-	docker build -t $2$TAG .
-	docker push $2$TAG	
+	docker build -t $2$GROUP$TAG .
+    docker push $2$GROUP$TAG    
+
+    if [ "$3" == $LATEST ]; then
+            docker build -t $2$GROUP .
+            docker push $2$GROUP
+    fi
+
 }
 
 
@@ -36,10 +45,10 @@ for i in ${BRANCHES[@]}; do
 	CURDIR=$WORKDIR/$i
 	cd ${CURDIR}
 	
-	git clone $SOURCE	
+	git clone $SOURCE .
 
 	BRANCH=$i
-	if [ "${BRANCH}" == "latest" ]; then
+	if [ "${BRANCH}" == ${LATEST} ]; then
 		BRANCH=master
 	fi
 
@@ -47,8 +56,9 @@ for i in ${BRANCHES[@]}; do
 
 	for v in ${VARIANTS[@]}; do
 		cd $CURDIR
-		dockerBuildPush $v $BASETAG
+		dockerBuildPush $v $BASETAG $i
 	done
+
 			
 done
 
