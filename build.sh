@@ -3,7 +3,7 @@
 set -ueo pipefail
 
 SOURCE=https://github.com/CRG-CNAG/docker-debian-perlbrew
-VARIANTS=(base pyenv pyenv3 java)
+VARIANTS=(base pyenv pyenv3 pyenv-java)
 BRANCHES=(jessie stretch)
 LATEST=stretch
 BASETAG=biocorecrg/debian-perlbrew
