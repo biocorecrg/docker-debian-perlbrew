@@ -18,19 +18,19 @@ function dockerBuildPush () {
 
 	cd $1
 	GROUP=""
-    if [ "${1}" != "base" ]; then
+	if [ "${1}" != "base" ]; then
         	GROUP="-$1"
 	fi
 
-    TAG=":$3"
+	TAG=":$3"
  
 	docker build -t $2$GROUP$TAG .
-    docker push $2$GROUP$TAG    
+	docker push $2$GROUP$TAG    
 
-    if [ "$3" == $LATEST ]; then
-            docker build -t $2$GROUP .
-            docker push $2$GROUP
-    fi
+	if [ "$3" == $LATEST ]; then
+		docker build -t $2$GROUP .
+		docker push $2$GROUP
+    	fi
 
 }
 
