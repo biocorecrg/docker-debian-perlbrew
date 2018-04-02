@@ -11,6 +11,10 @@ BASETAG=biocorecrg/debian-perlbrew
 TEMPDIR=$HOME/tmp
 WORKDIR=$TEMPDIR/docker-debian-perlbrew
 
+if [ -d "$WORKDIR" ]; then
+	exit 1
+fi
+
 mkdir -p $WORKDIR
 
 
