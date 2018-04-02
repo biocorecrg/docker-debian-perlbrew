@@ -24,7 +24,7 @@ function dockerBuildPush () {
 
 	TAG=":$3"
  
-	docker build -t $2$GROUP$TAG .
+	docker build --no-cache -t $2$GROUP$TAG .
 	docker push $2$GROUP$TAG    
 
 	if [ "$3" == $LATEST ]; then
