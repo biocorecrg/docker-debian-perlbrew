@@ -3,7 +3,7 @@
 set -ueo pipefail
 
 SOURCE=https://github.com/CRG-CNAG/docker-debian-perlbrew
-VARIANTS=(base pyenv pyenv3 pyenv-java)
+VARIANTS=(base pyenv pyenv3 pyenv-java pyenv3-java)
 BRANCHES=(jessie stretch)
 LATEST=stretch
 BASETAG=biocorecrg/debian-perlbrew
@@ -27,11 +27,14 @@ function dockerBuildPush () {
 	fi
 
 	TAG=":$3"
+
+    echo "--> $2$GROUP$TAG"
  
 	docker build --no-cache -t $2$GROUP$TAG .
 	docker push $2$GROUP$TAG    
 
 	if [ "$3" == $LATEST ]; then
+		echo "$$> $2$GROUP"
 		docker build -t $2$GROUP .
 		docker push $2$GROUP
     	fi
@@ -43,6 +46,8 @@ function dockerBuildPush () {
 for i in ${BRANCHES[@]}; do
 	
 	cd $WORKDIR
+
+    echo "** BRANCH ${i}"
 
 	mkdir ${i}
 
@@ -60,6 +65,7 @@ for i in ${BRANCHES[@]}; do
 
 	for v in ${VARIANTS[@]}; do
 		cd $CURDIR
+        echo "## VARIANT $v"
 		dockerBuildPush $v $BASETAG $i
 	done
 
