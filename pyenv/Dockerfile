@@ -20,6 +20,10 @@ RUN pyenv install $PYTHON_VERSION
 
 ENV PATH="$PYENV_ROOT/shims:$PYENV_ROOT/versions/$PYTHON_VERSION/bin:$PATH"
 
+RUN ln -s $PYENV_ROOT/versions/$PYTHON_VERSION/bin/python /usr/local/bin/python
+RUN ln -s $PYENV_ROOT/versions/$PYTHON_VERSION/bin/python2 /usr/local/bin/python2
+RUN ln -s $PYENV_ROOT/versions/$PYTHON_VERSION/bin/python2.7 /usr/local/bin/python2.7
+
 # Clean cache
 RUN apt-get clean
 RUN set -x; rm -rf /var/lib/apt/lists/*
