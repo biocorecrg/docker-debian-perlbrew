@@ -32,7 +32,7 @@ ENV PERLBREW_PERL perl-$PERL_VERSION
 ENV PERLBREW_MANPATH $PELRBREW_ROOT/perls/perl-$PERL_VERSION/man
 ENV PERLBREW_SKIP_INIT 1
 
-RUN ln -s $PELRBREW_ROOT/perls/perl-$PERL_VERSION/bin/perl /usr/local/bin/perl
+RUN ln -s $PERLBREW_ROOT/perls/perl-$PERL_VERSION/bin/perl /usr/local/bin/perl
 
 # Clean cache
 RUN apt-get clean
