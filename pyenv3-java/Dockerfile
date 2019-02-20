@@ -1,4 +1,4 @@
-FROM biocorecrg/debian-perlbrew-pyenv3
+FROM biocorecrg/debian-perlbrew-pyenv3:stretch
 
 # File Author / Maintainer
 MAINTAINER Toni Hermoso Pulido <toni.hermoso@crg.eu>
