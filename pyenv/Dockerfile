@@ -1,11 +1,11 @@
-FROM biocorecrg/debian-perlbrew:stretch
+FROM biocorecrg/debian-perlbrew:buster
 
 # File Author / Maintainer
 MAINTAINER Toni Hermoso Pulido <toni.hermoso@crg.eu>
 MAINTAINER Luca Cozzuto <lucacozzuto@gmail.com> 
 
 ARG PYENV_ROOT=/usr/local/python
-ARG PYTHON_VERSION=2.7.13
+ARG PYTHON_VERSION=2.7.16
 
 ENV PYENV_ROOT $PYENV_ROOT
 
