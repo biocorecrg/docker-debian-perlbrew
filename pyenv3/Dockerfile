@@ -9,7 +9,7 @@ ARG PYTHON_VERSION=3.7.4
 
 ENV PYENV_ROOT $PYENV_ROOT
 
-RUN set -x; apt-get update; apt-get upgrade; apt-get install -y git libreadline-dev sqlite3 libsqlite3-dev libssl-dev zlib1g-dev libbz2-dev tk-dev
+RUN set -x; apt-get update; apt-get upgrade; apt-get install -y git libreadline-dev sqlite3 libsqlite3-dev libssl-dev zlib1g-dev libbz2-dev tk-dev pkgconf libffi-dev libncursesw5-dev libgdbm-dev libc6-dev libssl-dev openssl
 
 RUN bash -c 'curl -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash'
 
