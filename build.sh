@@ -8,7 +8,7 @@ BRANCHES=(jessie stretch buster)
 LATEST=stretch
 BASETAG=biocorecrg/debian-perlbrew
 
-TEMPDIR=$HOME/tmp
+TEMPDIR=/scratch/tmp
 WORKDIR=$TEMPDIR/docker-debian-perlbrew
 
 if [ -d "$WORKDIR" ]; then
