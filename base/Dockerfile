@@ -22,7 +22,7 @@ RUN bash -c '\curl -L https://install.perlbrew.pl | bash'
 ENV PATH $PERLBREW_ROOT/bin:$PATH
 ENV PERLBREW_PATH $PERLBREW_ROOT/bin
 
-RUN perlbrew install $PERL_BUILD perl-$PERL_VERSION
+RUN perlbrew --force install $PERL_BUILD perl-$PERL_VERSION
 RUN perlbrew install-cpanm
 RUN bash -c 'source $PERLBREW_ROOT/etc/bashrc'
 		
