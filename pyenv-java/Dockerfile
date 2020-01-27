@@ -8,7 +8,7 @@ ARG JAVA_VERSION=8
 ARG MAVEN_VERSION=3.3.9
 
 # Add repos 
-RUN echo "deb http://http.debian.net/debian jessie-backports main" | \
+RUN echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" | \
     tee --append /etc/apt/sources.list.d/jessie-backports.list > /dev/null
 
 ENV JAVA_HOME /usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64
