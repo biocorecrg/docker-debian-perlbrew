@@ -9,8 +9,8 @@ ARG PERL_VERSION=5.24.1
 ARG PERL_BUILD=
 
 # Add repos. Based on: https://unix.stackexchange.com/questions/508724/failed-to-fetch-jessie-backports-repository#answer-508728
+RUN echo "Acquire::Check-Valid-Until \"0\";" > /etc/apt/apt.conf.d/10no--check-valid-until
 RUN echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list
-RUN apt-get -o Acquire::Check-Valid-Until=false update
 
 # Base Perl and builddep
 RUN set -x; \
