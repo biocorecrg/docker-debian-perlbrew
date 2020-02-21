@@ -8,6 +8,10 @@ ARG PERL_VERSION=5.24.1
 # Enable perl build options. Example: --build-arg PERL_BUILD="--thread --debug"
 ARG PERL_BUILD=
 
+# Add repos 
+RUN echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" | \
+    tee --append /etc/apt/sources.list.d/jessie-backports.list > /dev/null
+
 # Base Perl and builddep
 RUN set -x; \
 apt-get update && apt-get upgrade; \
