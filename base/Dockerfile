@@ -12,7 +12,7 @@ ARG PERL_BUILD=--thread
 RUN set -x; \
 apt-get update && apt-get upgrade; \
 apt-get install -y perl bzip2 zip curl \
-	build-essential
+	build-essential procps
 #RUN apt-get build-dep perl
 
 RUN mkdir -p $PERLBREW_ROOT
