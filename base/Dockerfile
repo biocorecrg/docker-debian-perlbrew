@@ -10,7 +10,7 @@ ARG PERL_BUILD=--thread
 
 # Base Perl and builddep
 RUN set -x; \
-apt-get update && apt-get upgrade; \
+apt-get update && apt-get upgrade -y; \
 apt-get install -y perl bzip2 zip curl \
 	build-essential procps
 #RUN apt-get build-dep perl
