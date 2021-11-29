@@ -14,7 +14,7 @@ RUN echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-bac
 
 # Base Perl and builddep
 RUN set -x; \
-apt-get update && apt-get upgrade; \
+apt-get update && apt-get upgrade -y; \
 apt-get install -y perl bzip2 zip curl \
 	build-essential procps
 #RUN apt-get build-dep perl
