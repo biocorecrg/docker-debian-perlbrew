@@ -43,6 +43,18 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Sets env vars for Docker image
         run: |
+          echo "DOCKER_IMAGE_TAG=${{env.DOCKER_IMAGE_PREFIX}}" >> $GITHUB_ENV
+        if: ${{ matrix.folder == 'base' }}
+      - name: Sets env vars for Docker image
+        run: |
+          echo "DOCKER_IMAGE_TAG=${{env.DOCKER_IMAGE_PREFIX}}-${{ matrix.folder }}" >> $GITHUB_ENV
+        if: ${{ matrix.folder != 'base' }}
+      - name: Sets env vars for Docker image
+        run: |
+          echo "DOCKER_IMAGE_BRANCH=${{ matrix.branch }}" >> $GITHUB_ENV
+        if: ${{ matrix.branch != 'main' }}
+      - name: Sets env vars for Docker image
+        run: |
           echo "DOCKER_IMAGE_BRANCH=latest" >> $GITHUB_ENV
         if: ${{ matrix.branch == 'main' }}
       - name: Sets env vars for Docker image
@@ -57,5 +69,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_ACCOUNT }}/${{env.DOCKER_IMAGE_PREFIX}}-${{ matrix.folder }}:${{ env.DOCKER_IMAGE_BRANCH }}
-            ghcr.io/${{ github.repository_owner }}/docker-${{env.DOCKER_IMAGE_PREFIX}}-${{ matrix.folder }}:${{ env.DOCKER_IMAGE_BRANCH }}
+            ${{ secrets.DOCKERHUB_ACCOUNT }}/${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}
+            ghcr.io/${{ github.repository_owner }}/docker-${{env.DOCKER_IMAGE_TAG }}:${{ env.DOCKER_IMAGE_BRANCH }}
