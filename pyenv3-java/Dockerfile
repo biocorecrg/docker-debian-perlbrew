@@ -1,11 +1,11 @@
-FROM biocorecrg/debian-perlbrew-pyenv3:stretch
+FROM biocorecrg/debian-perlbrew-pyenv3:buster
 
 # File Author / Maintainer
 MAINTAINER Toni Hermoso Pulido <toni.hermoso@crg.eu>
 MAINTAINER Luca Cozzuto <lucacozzuto@gmail.com> 
 
-ARG JAVA_VERSION=8
-ARG MAVEN_VERSION=3.3.9
+ARG JAVA_VERSION=11
+ARG MAVEN_VERSION=3.6.3
 
 ENV JAVA_HOME /usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64
 

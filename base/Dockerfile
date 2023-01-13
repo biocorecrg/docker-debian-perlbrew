@@ -1,12 +1,12 @@
-FROM debian:stretch
+FROM debian:buster
 
 # File Author / Maintainer
 MAINTAINER Toni Hermoso Pulido <toni.hermoso@crg.eu>
 
 ARG PERLBREW_ROOT=/usr/local/perl
-ARG PERL_VERSION=5.24.1
+ARG PERL_VERSION=5.28.2
 # Enable perl build options. Example: --build-arg PERL_BUILD="--thread --debug"
-ARG PERL_BUILD=
+ARG PERL_BUILD=--thread
 
 # Base Perl and builddep
 RUN set -x; \
