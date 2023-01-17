@@ -70,4 +70,4 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_ACCOUNT }}/${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}
-            #ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/docker-${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}
+
