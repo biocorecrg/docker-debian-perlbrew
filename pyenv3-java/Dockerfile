@@ -7,13 +7,15 @@ MAINTAINER Luca Cozzuto <lucacozzuto@gmail.com>
 ARG JAVA_VERSION=17
 ARG MAVEN_VERSION=3.8.7
 
-ENV JAVA_HOME /usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64
-
 # Install Redis
 RUN set -x; apt-get update; apt-get -y upgrade; 
 # Install Java
 RUN set -x; apt-get -y install openjdk-$JAVA_VERSION-jdk
-RUN set -x; update-java-alternatives -s java-1.$JAVA_VERSION.0-openjdk-amd64
+RUN set -x; ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/) && update-java-alternatives -s java-1.$JAVA_VERSION.0-openjdk-${ARCH}
+
+# Set JAVA_HOME -> https://stackoverflow.com/questions/43655291/dynamically-set-java-home-of-docker-container
+# https://stackoverflow.com/questions/34911622/dockerfile-set-env-to-result-of-command
+RUN bash -l -c 'echo export JAVA_HOME="$(dirname $(dirname $(readlink -f $(type -P java))))"  >> /etc/bash.bashrc'
 
 # Install maven
 
