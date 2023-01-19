@@ -16,7 +16,7 @@ jobs:
       fail-fast: true
       max-parallel: 1
       matrix:
-        branch: ['buster', 'bullseye', 'main']
+        branch: ['bullseye', 'buster', 'main']
         folder: ['base', 'pyenv3', 'pyenv3-java']
     steps:
       -
