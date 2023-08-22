@@ -19,7 +19,7 @@ RUN bash -l -c 'echo export JAVA_HOME="$(dirname $(dirname $(readlink -f $(type 
 
 # Install maven
 
-RUN cd /usr/local; curl --fail --silent --show-error --location --remote-name http://apache.rediris.es//maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz
+RUN cd /usr/local; curl --fail --silent --show-error --location --remote-name https://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz
 
 RUN cd /usr/local; tar zxf apache-maven-$MAVEN_VERSION-bin.tar.gz
 RUN cd /usr/local; rm apache-maven-$MAVEN_VERSION-bin.tar.gz
