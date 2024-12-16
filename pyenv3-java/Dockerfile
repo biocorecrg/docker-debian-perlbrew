@@ -1,6 +1,6 @@
 FROM biocorecrg/debian-perlbrew-pyenv3:bookworm
 
-ARG JAVA_VERSION=21
+ARG JAVA_VERSION=17
 ARG MAVEN_VERSION=3.9.9
 
 # Install Redis
