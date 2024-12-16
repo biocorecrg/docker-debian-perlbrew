@@ -1,0 +1,78 @@
+name: Publish Docker images
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'
+env:
+  DOCKER_IMAGE_PREFIX: debian-perlbrew
+jobs:
+  push_to_registries:
+    name: Push Docker image to multiple registries
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        branch: ['bookworm', 'bullseye', 'buster']
+        folder: ['base', 'pyenv3', 'pyenv3-java']
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ matrix.branch }}
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Log in to GitHub Docker Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Sets env vars for Docker image
+        run: |
+          echo "DOCKER_IMAGE_TAG=${{env.DOCKER_IMAGE_PREFIX}}" >> $GITHUB_ENV
+        if: ${{ matrix.folder == 'base' }}
+      - name: Sets env vars for Docker image
+        run: |
+          echo "DOCKER_IMAGE_TAG=${{env.DOCKER_IMAGE_PREFIX}}-${{ matrix.folder }}" >> $GITHUB_ENV
+        if: ${{ matrix.folder != 'base' }}
+      - name: Sets env vars for Docker image
+        run: |
+          echo "DOCKER_IMAGE_BRANCH=${{ matrix.branch }}" >> $GITHUB_ENV
+      - name: Push Docker
+        uses: docker/build-push-action@v3
+        with:
+          file: ./${{ matrix.folder }}/Dockerfile
+          context: ./${{ matrix.folder }}
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_ACCOUNT }}/${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}
+            ghcr.io/${{ github.repository_owner }}/${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}
+        if: ${{ matrix.branch != 'buster' }} # Non default branch
+      - name: Push Docker
+        uses: docker/build-push-action@v3
+        with:
+          file: ./${{ matrix.folder }}/Dockerfile
+          context: ./${{ matrix.folder }}
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_ACCOUNT }}/${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}
+            ${{ secrets.DOCKERHUB_ACCOUNT }}/${{env.DOCKER_IMAGE_TAG}}:latest
+            ghcr.io/${{ github.repository_owner }}/${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}
+            ghcr.io/${{ github.repository_owner }}/${{env.DOCKER_IMAGE_TAG}}:latest
+        if: ${{ matrix.branch == 'buster' }} # Default branch
