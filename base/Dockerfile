@@ -10,9 +10,9 @@ ARG PERL_BUILD=--thread
 
 # Base Perl and builddep
 RUN set -x; \
-apt-get update && apt-get upgrade -y; \
-apt-get install -y perl bzip2 zip curl \
-	build-essential procps
+  apt-get update && apt-get upgrade -y; \
+  apt-get install -y perl bzip2 zip curl \
+  build-essential procps
 #RUN apt-get build-dep perl
 
 RUN mkdir -p $PERLBREW_ROOT
@@ -22,10 +22,11 @@ RUN bash -c '\curl -L https://install.perlbrew.pl | bash'
 ENV PATH $PERLBREW_ROOT/bin:$PATH
 ENV PERLBREW_PATH $PERLBREW_ROOT/bin
 
+RUN perlbrew install-patchperl
 RUN perlbrew --notest install $PERL_BUILD perl-$PERL_VERSION
 RUN perlbrew install-cpanm
 RUN bash -c 'source $PERLBREW_ROOT/etc/bashrc'
-		
+
 ENV PERLBREW_ROOT $PERLBREW_ROOT
 ENV PATH $PERLBREW_ROOT/perls/perl-$PERL_VERSION/bin:$PATH
 ENV PERLBREW_PERL perl-$PERL_VERSION
