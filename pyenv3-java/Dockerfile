@@ -1,11 +1,7 @@
-FROM biocorecrg/debian-perlbrew-pyenv3:buster
+FROM biocorecrg/debian-perlbrew-pyenv3:bookworm
 
-# File Author / Maintainer
-MAINTAINER Toni Hermoso Pulido <toni.hermoso@crg.eu>
-MAINTAINER Luca Cozzuto <lucacozzuto@gmail.com> 
-
-ARG JAVA_VERSION=11
-ARG MAVEN_VERSION=3.6.3
+ARG JAVA_VERSION=17
+ARG MAVEN_VERSION=3.9.9
 
 # Install Redis
 RUN set -x; apt-get update; apt-get -y upgrade; 
