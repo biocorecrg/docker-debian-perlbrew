@@ -1,11 +1,7 @@
-FROM biocorecrg/debian-perlbrew:bullseye
-
-# File Author / Maintainer
-MAINTAINER Toni Hermoso Pulido <toni.hermoso@crg.eu>
-MAINTAINER Luca Cozzuto <lucacozzuto@gmail.com> 
+FROM biocorecrg/debian-perlbrew:bookworm
 
 ARG PYENV_ROOT=/usr/local/python
-ARG PYTHON_VERSION=3.11.1
+ARG PYTHON_VERSION=3.13.1
 
 ENV PYENV_ROOT $PYENV_ROOT
 
