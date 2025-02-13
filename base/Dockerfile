@@ -1,14 +1,13 @@
 FROM debian:bullseye
 
-# File Author / Maintainer
-MAINTAINER Toni Hermoso Pulido <toni.hermoso@crg.eu>
-
 ARG PERLBREW_ROOT=/usr/local/perl
 ARG PERL_VERSION=5.36.0
 # Enable perl build options. Example: --build-arg PERL_BUILD="--thread --debug"
 ARG PERL_BUILD=--thread
 
 # Base Perl and builddep
+RUN set -x; \
+  rm /var/lib/dpkg/info/libc-bin.* && apt-get clean -y && apt-get update && apt-get install libc-bin
 RUN set -x; \
   apt-get update && apt-get upgrade -y; \
   apt-get install -y perl bzip2 zip curl \
