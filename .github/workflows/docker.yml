@@ -20,6 +20,9 @@ jobs:
       matrix:
         branch: ['bookworm', 'bullseye', 'buster']
         folder: ['base', 'pyenv3', 'pyenv3-java']
+        include:
+        - branch: bookworm
+          folder: pyenv3-java-21
     steps:
       -
         name: Checkout
