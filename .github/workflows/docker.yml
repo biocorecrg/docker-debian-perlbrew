@@ -9,7 +9,7 @@ jobs:
   push_to_registries:
     name: Push Docker image to multiple registries
     #runs-on: ubuntu-latest
-    runs-on:
+    runs-on: 
       group: perlbrew
     permissions:
       packages: write
@@ -60,10 +60,6 @@ jobs:
       - name: Sets env vars for Docker image
         run: |
           echo "DOCKER_IMAGE_BRANCH=${{ matrix.branch }}" >> $GITHUB_ENV
-      - name: 'Set up skopeo'
-        uses: warjiang/setup-skopeo@v0.1.3
-        with:
-          version: latest
       - name: Push Docker
         uses: docker/build-push-action@v6
         with:
@@ -73,22 +69,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_ACCOUNT }}/${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}
-        if: ${{ matrix.branch != 'buster' }} # Non default branch
-      - name: Push ORAS
-        uses: docker/build-push-action@v6
-        with:
-          labels: "${{ steps.meta.outputs.labels }}"
-          file: ./${{ matrix.folder }}/Dockerfile
-          context: ./${{ matrix.folder }}
-          platforms: linux/amd64,linux/arm64
-          outputs: type=oci,dest=${{runner.temp}}/oci-${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}.tar
-        if: ${{ matrix.branch != 'buster' }} # Non default branch
-      - name: Push OCI archive to remote registry
-        run: |
-          skopeo copy --dest-creds \
-          ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \
-          oci-archive:${{runner.temp}}/oci-${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}.tar \
-          docker://ghcr.io/${{ github.repository_owner }}/${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}
+            ghcr.io/${{ github.repository_owner }}/${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}
         if: ${{ matrix.branch != 'buster' }} # Non default branch
       - name: Push Docker
         uses: docker/build-push-action@v6
@@ -100,26 +81,6 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_ACCOUNT }}/${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}
             ${{ secrets.DOCKERHUB_ACCOUNT }}/${{env.DOCKER_IMAGE_TAG}}:latest
+            ghcr.io/${{ github.repository_owner }}/${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}
+            ghcr.io/${{ github.repository_owner }}/${{env.DOCKER_IMAGE_TAG}}:latest
         if: ${{ matrix.branch == 'buster' }} # Default branch
-      - name: Push ORAS
-        uses: docker/build-push-action@v6
-        with:
-          labels: "${{ steps.meta.outputs.labels }}"
-          file: ./${{ matrix.folder }}/Dockerfile
-          context: ./${{ matrix.folder }}
-          platforms: linux/amd64,linux/arm64
-          outputs: type=oci,dest=${{runner.temp}}/oci-${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}.tar
-      - name: Push OCI archive to remote registry
-        run: |
-          skopeo copy --dest-creds \
-          ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \
-          oci-archive:${{runner.temp}}/oci-${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}.tar \
-          docker://ghcr.io/${{ github.repository_owner }}/${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}
-        if: ${{ matrix.branch == 'buster' }} # Non default branch
-      - name: Push OCI archive to remote registry
-        run: |
-          skopeo copy --dest-creds \
-          ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} \
-          oci-archive:${{runner.temp}}/oci-${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}.tar \
-          docker://ghcr.io/${{ github.repository_owner }}/${{env.DOCKER_IMAGE_TAG}}:latest
-        if: ${{ matrix.branch == 'buster' }} # Non default branch
