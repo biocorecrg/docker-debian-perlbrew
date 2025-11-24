@@ -9,7 +9,7 @@ jobs:
   push_to_registries:
     name: Push Docker image to multiple registries
     #runs-on: ubuntu-latest
-    runs-on: 
+    runs-on:
       group: perlbrew
     permissions:
       packages: write
@@ -18,7 +18,7 @@ jobs:
       fail-fast: true
       max-parallel: 1
       matrix:
-        branch: ['bookworm', 'bullseye']
+        branch: ['bookworm', 'bullseye', 'trixie']
         folder: ['base', 'pyenv3', 'pyenv3-java']
         include:
         - branch: bookworm
