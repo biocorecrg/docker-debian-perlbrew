@@ -1,7 +1,7 @@
-FROM biocorecrg/debian-perlbrew:bookworm
+FROM biocorecrg/debian-perlbrew:trixie
 
 ARG PYENV_ROOT=/usr/local/python
-ARG PYTHON_VERSION=3.13.1
+ARG PYTHON_VERSION=3.13.9
 
 ENV PYENV_ROOT $PYENV_ROOT
 

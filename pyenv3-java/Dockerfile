@@ -1,10 +1,10 @@
-FROM biocorecrg/debian-perlbrew-pyenv3:bookworm
+FROM biocorecrg/debian-perlbrew-pyenv3:trixie
 
-ARG JAVA_VERSION=17
-ARG MAVEN_VERSION=3.9.9
+ARG JAVA_VERSION=21
+ARG MAVEN_VERSION=3.9.11
 
 # Install Redis
-RUN set -x; apt-get update; apt-get -y upgrade; 
+RUN set -x; apt-get update; apt-get -y upgrade;
 # Install Java
 RUN set -x; apt-get -y install openjdk-$JAVA_VERSION-jdk
 RUN set -x; ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/) && update-java-alternatives -s java-1.$JAVA_VERSION.0-openjdk-${ARCH}
