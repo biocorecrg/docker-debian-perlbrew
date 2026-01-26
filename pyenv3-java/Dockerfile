@@ -22,16 +22,17 @@ RUN cd /usr/local; rm apache-maven-$MAVEN_VERSION-bin.tar.gz
 RUN cd /usr/local; ln -s /usr/local/apache-maven-$MAVEN_VERSION/bin/mvn /usr/local/bin/mvn
 
 # HARICA Certs
-ENV JAVA_HOME=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-${ARCH}
-RUN keytool -importcert -alias harica-ecc -noprompt \
-    -file /usr/local/share/ca-certificates/HARICA_TLS_ECC_Root_CA_2021.crt \
-    -keystore $JAVA_HOME/lib/security/cacerts \
-    -storepass changeit
+RUN ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/) && \
+    JAVA_HOME=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-${ARCH} && \
+    keytool -importcert -alias harica-ecc -noprompt \
+      -file /usr/local/share/ca-certificates/HARICA_TLS_ECC_Root_CA_2021.crt \
+      -keystore $JAVA_HOME/lib/security/cacerts \
+      -storepass changeit && \
+    keytool -importcert -alias harica-rsa -noprompt \
+      -file /usr/local/share/ca-certificates/HARICA_TLS_RSA_Root_CA_2021.crt \
+      -keystore $JAVA_HOME/lib/security/cacerts \
+      -storepass changeit
 
-RUN keytool -importcert -alias harica-rsa -noprompt \
-    -file /usr/local/share/ca-certificates/HARICA_TLS_RSA_Root_CA_2021.crt \
-    -keystore $JAVA_HOME/lib/security/cacerts \
-    -storepass changeit
 
 # Clean cache
 RUN apt-get clean
