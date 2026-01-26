@@ -4,7 +4,7 @@ ARG JAVA_VERSION=17
 ARG MAVEN_VERSION=3.9.9
 
 # Install Redis
-RUN set -x; apt-get update; apt-get -y upgrade; 
+RUN set -x; apt-get update; apt-get -y upgrade;
 # Install Java
 RUN set -x; apt-get -y install openjdk-$JAVA_VERSION-jdk
 RUN set -x; ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/) && update-java-alternatives -s java-1.$JAVA_VERSION.0-openjdk-${ARCH}
@@ -20,6 +20,16 @@ RUN cd /usr/local; curl --fail --silent --show-error --location --remote-name ht
 RUN cd /usr/local; tar zxf apache-maven-$MAVEN_VERSION-bin.tar.gz
 RUN cd /usr/local; rm apache-maven-$MAVEN_VERSION-bin.tar.gz
 RUN cd /usr/local; ln -s /usr/local/apache-maven-$MAVEN_VERSION/bin/mvn /usr/local/bin/mvn
+
+# HARICA Certs
+RUN keytool -importcert -alias harica-ecc -noprompt \
+    -file /usr/local/share/ca-certificates/HARICA_TLS_ECC_Root_CA_2021.crt \
+    -keystore $JAVA_HOME/lib/security/cacerts \
+    -storepass changeit
+RUN keytool -importcert -alias harica-rsa -noprompt \
+    -file /usr/local/share/ca-certificates/HARICA_TLS_RSA_Root_CA_2021.crt \
+    -keystore $JAVA_HOME/lib/security/cacerts \
+    -storepass changeit
 
 # Clean cache
 RUN apt-get clean

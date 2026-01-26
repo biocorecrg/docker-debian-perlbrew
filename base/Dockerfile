@@ -33,6 +33,12 @@ ENV PERLBREW_SKIP_INIT 1
 
 RUN ln -s $PERLBREW_ROOT/perls/perl-$PERL_VERSION/bin/perl /usr/local/bin/perl
 
+# Add HARICA certificates
+ADD https://repo.harica.gr/certs/HARICA-TLS-Root-2021-ECC.pem /usr/local/share/ca-certificates/HARICA_TLS_ECC_Root_CA_2021.crt
+ADD https://repo.harica.gr/certs/HARICA-TLS-Root-2021-RSA.pem /usr/local/share/ca-certificates/HARICA_TLS_RSA_Root_CA_2021.crt
+
+RUN update-ca-certificates
+
 # Clean cache
 RUN apt-get clean
 RUN set -x; rm -rf /var/lib/apt/lists/*
