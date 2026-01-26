@@ -70,7 +70,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_ACCOUNT }}/${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}
             ghcr.io/${{ github.repository_owner }}/${{env.DOCKER_IMAGE_TAG}}:${{ env.DOCKER_IMAGE_BRANCH }}
-        if: ${{ matrix.branch != 'buster' }} # Non default branch
+        if: ${{ matrix.branch != 'bookworm' }} # Non default branch
       - name: Push Docker
         uses: docker/build-push-action@v6
         with:
