@@ -21,6 +21,17 @@ RUN cd /usr/local; tar zxf apache-maven-$MAVEN_VERSION-bin.tar.gz
 RUN cd /usr/local; rm apache-maven-$MAVEN_VERSION-bin.tar.gz
 RUN cd /usr/local; ln -s /usr/local/apache-maven-$MAVEN_VERSION/bin/mvn /usr/local/bin/mvn
 
+# HARICA Certs
+RUN keytool -importcert -alias harica-ecc -noprompt \
+    -file /usr/local/share/ca-certificates/HARICA_TLS_ECC_Root_CA_2021.crt \
+    -keystore $JAVA_HOME/lib/security/cacerts \
+    -storepass changeit
+
+RUN keytool -importcert -alias harica-rsa -noprompt \
+    -file /usr/local/share/ca-certificates/HARICA_TLS_RSA_Root_CA_2021.crt \
+    -keystore $JAVA_HOME/lib/security/cacerts \
+    -storepass changeit
+
 # Clean cache
 RUN apt-get clean
 RUN set -x; rm -rf /var/lib/apt/lists/*
